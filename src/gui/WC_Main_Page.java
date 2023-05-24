@@ -25,9 +25,17 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
+//TODO name exsitiert bereits alert
+//TODO liste aller paarungen in anderem modal
 public class WC_Main_Page extends Application {
 	
-	//TODO name exsitiert bereits alert
+	private static final Logger log = LogManager.getLogger(WC_Main_Page.class);
+
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -43,7 +51,7 @@ public class WC_Main_Page extends Application {
 			if (DELETEMODE) {
 //				Datenbank.deleteWholeTableEntriesPersons();
 //				Datenbank.deleteWholeTableEntriesLosung();
-				System.out.println("Alte Einträge gelöscht");
+				log.warn("Alte Einträge gelöscht");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -130,7 +138,7 @@ public class WC_Main_Page extends Application {
 //			if (plAuswahl.size()>=3)
 //				btnBereit.setDisable(false);
 			if (plAuswahl.isEmpty())
-				System.out.println("Keine Auswahl Getroffen");
+				log.info("Keine Auswahl Getroffen");
 			else {
 			insertPersonsInDB();
 			VBox vb2 = new WC_AulosungPage(plAuswahl).getSecondWindow(primaryStage,scene1);
@@ -190,7 +198,7 @@ public class WC_Main_Page extends Application {
 			if (letzteRunde == 0) 
 				olList.add("Keine Letzte Runde abrufbar");
 			else {
-				System.out.println("Letzte Runde -> " + letzteRunde);
+				log.info("Letzte Runde -> " + letzteRunde);
 			letzeRundeList = Datenbank.leseErgebnisseNachRundeList(letzteRunde);
 			olList.add("letzte Runde: " + letzteRunde);
 			letzeRundeList.forEach(l -> olList.add(l.getSucht() + " suchte aus für " + l.getFuer()));

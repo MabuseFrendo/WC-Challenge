@@ -11,11 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import gui.Ergebnis;
 import gui.Person;
+import gui.WC_Main_Page;
 
 
 public class Datenbank {
+	private static final Logger log = LogManager.getLogger(WC_Main_Page.class);
 
 	
 //	private static String DBLocation;
@@ -50,7 +55,7 @@ public class Datenbank {
 			stmt = conn.createStatement();
 			rs = conn.getMetaData().getTables(null, null, TABLE_ERGEBNISSE.toUpperCase(), new String[] { "TABLE" });
 			if (rs.next()) {
-				System.out.println(TABLE_ERGEBNISSE + " exisitiert bereits");
+				log.info(TABLE_ERGEBNISSE + " exisitiert bereits");
 				return;
 			}
 			String ct = "CREATE TABLE " + TABLE_ERGEBNISSE + " (" + ID_ERGEBNIS + " INTEGER GENERATED ALWAYS AS IDENTITY, " + SUCHT
@@ -82,7 +87,7 @@ public class Datenbank {
 			stmt = conn.createStatement();
 			rs = conn.getMetaData().getTables(null, null, TABLE_PERSONS.toUpperCase(), new String[] { "TABLE" });
 			if (rs.next()) {
-				System.out.println(TABLE_PERSONS + " exisitiert bereits");
+				log.info(TABLE_PERSONS + " exisitiert bereits");
 				return;
 			}
 			String ct = "CREATE TABLE " + TABLE_PERSONS + " (" + ID_PERSON + " INTEGER GENERATED ALWAYS AS IDENTITY, " + NAME
@@ -436,7 +441,7 @@ public class Datenbank {
 			conn = DriverManager.getConnection(connString);
 			stmt = conn.prepareStatement(delete);
 			stmt.executeUpdate();
-			System.out.println("Eintrag Gelöscht");
+			log.info("Eintrag Gelöscht");
 		} catch (SQLException e) {
 			throw e;
 		} finally {
