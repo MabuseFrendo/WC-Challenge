@@ -81,38 +81,6 @@ public class WC_ErgebnisDialog extends Dialog<ButtonType>  {
 //		btnSpeichern.addEventFilter(ActionEvent.ACTION, e -> {
 //
 //		});
-		
-		/*
-		 *  ResultConverter
-		 */
-		this.setResultConverter(new Callback<ButtonType, ButtonType>() {
-
-			@Override
-			public ButtonType call(ButtonType arg0) {
-				// TODO Auto-generated method stub
-				return arg0;
-			}
-//			@Override
-//			public ButtonType call(ButtonType arg0) {
-//				if (arg0 == speichern) {
-//					Benutzer benutzer = null; // brauch ich für PBKFD Methode (try/catch)
-//					try {
-//						benutzer = new Benutzer(1, txtVorname.getText(), txtNachname.getText(), txtAdresse.getText(),
-//								txtEmail.getText(), txtTelNummer.getText(),
-//								PBKDF.generateStrongPasswordHash(txtPasswort.getText()));
-//					} catch (NoSuchAlgorithmException | InvalidKeySpecException e1) {
-//						e1.printStackTrace();
-//					}
-//					ServiceFunctionsReturn sfrp = ServiceFunctions.post("benutzer", benutzer.toXML());
-//					if (!sfrp.isRc()) {
-//						new Alert(AlertType.ERROR, new Meldung(sfrp.getLine()).toString()).showAndWait(); 
-//					}
-//				}
-//				return arg0;
-//
-//   }
-
-   });
 	
 }
 }
