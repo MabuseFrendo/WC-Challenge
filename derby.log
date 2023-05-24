@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Wed May 24 20:25:13 CEST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0188-4f02-0915-000007a5a9f8 
+on database directory C:\Datenbanken\WCDatenbank with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7c3df479 
+Loaded from file:/C:/Users/manue/Desktop/JavaSchulung/JavaKurs/Java%20Software_Files_Derby_JAXWS_Jersey/Derby/db-derby-10.15.2.0-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=15.0.1+9-18
+user.dir=C:\Users\manue\git\WC-Challenge\WC-Challenge
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
