@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
@@ -47,11 +49,12 @@ public class WC_AulosungPage extends WC_Main_Page  {
 	private ObservableList<String> olSucht = FXCollections.observableArrayList();
 	private ObservableList<String> olFuer = FXCollections.observableArrayList();
 	
+//	private HashMap<String, String> specialList = new HashMap<>();
 	
 	
    public WC_AulosungPage(ArrayList<Person> plAuswahl) {
 	   this.plAuswahl=plAuswahl;
-	   for (Long i = 0L; i <=plAuswahl.size();i++)
+	   for (Long i = 0L; i <=plAuswahl.size()-1;i++)
 		   ol1.add(i);
 	   this.cbAnzahl.setItems(ol1);
 	   this.cbAnzahl.getSelectionModel().selectFirst();
@@ -92,6 +95,10 @@ public VBox getSecondWindow(Stage primaryStage,Scene scene1) {
 			ComboBox<String> cbFuer = new ComboBox<>();
 			cbFuer.setItems(olFuer);
 			Button btnOK = new Button("OK");
+			/*Button btnX = new Button("X");
+			btnX.setOnAction(a2 -> {
+				specialList.put(cbSucht.getSelectionModel().getSelectedItem(), cbFuer.getSelectionModel().getSelectedItem());
+				});*/
 			
 			hb2 = new HBox(5, cbSucht, lbSuchtFuer, cbFuer,btnOK);
 			
@@ -102,20 +109,37 @@ public VBox getSecondWindow(Stage primaryStage,Scene scene1) {
 //				olFuer.remove(cbFuer.getSelectionModel().getSelectedItem());
 				});
 			
+			
 			finalVB.getChildren().add(hb2);
 			
 		}
 		
 		Button btnOK = new Button("Runde Starten");
 		btnOK.addEventFilter(ActionEvent.ACTION, e -> {
-			new WC_ErgebnisDialog(super.plAuswahl,sonderregelList,Integer.valueOf(txtRunde.getText())).showAndWait();
-			e.consume();
+		WC_ErgebnisDialog modal = new WC_ErgebnisDialog(super.plAuswahl,sonderregelList,Integer.valueOf(txtRunde.getText()));
+		Stage stage = (Stage) modal.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(
+				Paths.get("C:\\Users\\manue\\Desktop\\JavaKurs\\icon.jpg").toUri().toString()));
+		modal.showAndWait();
+		e.consume();
 		});
 		Button btnBack= new Button("Zurück");
 		  btnBack.setOnAction(a2 -> {
 			  primaryStage.setScene(scene1);
 			  primaryStage.show();
 		  });
+		  /* Nur zum nachtragen
+		  Button btnX2= new Button("special");
+		  btnX2.setOnAction(a2 -> {
+			  int runde = Integer.valueOf(String.valueOf(cbAnzahl.getSelectionModel().getSelectedItem()));
+			   try {
+				Datenbank.insertErgebnisListe(specialList, runde);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+				System.out.println("Runde "+runde+" gespeichert");
+		  });
+		  */  
 		finalVB.getChildren().add(new HBox(10,btnOK,btnBack));
 //		btnErzeugen.setDisable(true);
 		txtRunde.setEditable(false);

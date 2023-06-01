@@ -366,6 +366,35 @@ public class Datenbank {
 		}
 	}
 	
+	public static void updateRunde(int runde) {
+		boolean admin=false;
+		if (!admin)
+			return;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		String insert = "UPDATE " +  TABLE_PERSONS + " SET "+ NAME + " = ? " + " WHERE " + NAME + " = 'Test11'";	 
+		try {
+			conn = DriverManager.getConnection(connString);
+			stmt = conn.prepareStatement(insert);
+			stmt.setString(1, "Ammo");
+			stmt.executeUpdate();	
+			log.info("updated");
+		} 
+		catch (SQLException e) {
+			e.toString();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (conn != null)
+					conn.close();
+			} 
+			catch (SQLException e) {
+				e.toString();
+			}
+		}
+	}
+	
 
 	public static void deleteWholeTableEntriesPersons() throws SQLException {
 		Connection conn = null;

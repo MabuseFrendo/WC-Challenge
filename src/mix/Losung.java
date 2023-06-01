@@ -12,10 +12,16 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import db.Datenbank;
 import gui.Person;
+import gui.WC_Main_Page;
 
 public class Losung {
+	
+	private static final Logger log = LogManager.getLogger(WC_Main_Page.class);
 
 	private ArrayList<Person> plAuswahl = new ArrayList<>();
 	private HashMap<String, String> sonderregeln = new HashMap<>();
@@ -45,30 +51,30 @@ public class Losung {
 			ArrayList<Person> personen2 = (ArrayList<Person>) plAuswahl.clone();
 			finalerMix = new HashMap<>();
 			
-			System.out.println("Start First Shuffel");
+			log.info("Start First Shuffel");
 			for (Person p1 : personen1) {
 				int zufallszahl = new Random().nextInt(personen2.size());
 				Person p2 = personen2.get(zufallszahl);
 				if (p1.getName().contentEquals(p2.getName())|| gleichLetzteRunde(p1.getName(),p2.getName())) {
-					System.out.println(p1.getName() +" = "+p2.getName()+ " => Mix Again");
+					log.info(p1.getName() +" = "+p2.getName()+ " => Mix Again");
 					needforRepeat = true;
 					break;
 
 				}
 				finalerMix.put(p1.getName(), p2.getName());
-				System.out.println(p1.getName() + " and " + p2.getName() + " Added!");
-				System.out.println(p2.getName() + " removed!");
+				log.info(p1.getName() + " and " + p2.getName() + " Added!");
+				log.info(p2.getName() + " removed!");
 				personen2.remove(zufallszahl);
 			}
 		} while (needforRepeat);
-		System.out.println("End first Shuffel");
+		log.info("End first Shuffel");
 
-		finalerMix.forEach((k, v) -> System.out.println(k + " sucht aus für " + v));
+		finalerMix.forEach((k, v) -> log.info(k + " sucht aus für " + v));
 		considerSonderregeln();
 	}
 
 	private void considerSonderregeln() {
-		System.out.println("Start second Shuffel");
+		log.info("Start second Shuffel");
 		sonderregeln.forEach((keySonderregeln, valueSonderrelgen) -> {
 			String valueFromKeySonderregeln = finalerMix.entrySet().stream()
 					.filter(entry -> Objects.equals(entry.getKey(), keySonderregeln)).findFirst().get().getValue();
@@ -76,31 +82,34 @@ public class Losung {
 					.filter(entry -> Objects.equals(entry.getValue(), valueSonderrelgen)).findFirst().get().getKey();
 			finalerMix.replace(keySonderregeln, valueSonderrelgen);
 			finalerMix.replace(keyFromMix, valueFromKeySonderregeln);
-			System.out.println("Sonderregel '" + keySonderregeln + " sucht aus für '" + valueSonderrelgen + "' berücksichitgt");
-			System.out.println(keyFromMix + " sucht jetzt aus für " + valueFromKeySonderregeln);
+			log.info("Sonderregel '" + keySonderregeln + " sucht aus für '" + valueSonderrelgen + "' berücksichitgt");
+			log.info(keyFromMix + " sucht jetzt aus für " + valueFromKeySonderregeln);
 			finalerMix.forEach((k, v) -> {
 				if (k.contentEquals(v) || gleichLetzteRunde(k,v)) {
-					System.out.println(k +" = "+v+ " => Mix Again");
-					System.out.println("### Mix again rekursiv ###");	
+					log.info(k +" = "+v+ " => Mix Again");
+					log.info("### Mix again rekursiv ###");	
 					needforRepeat=true;
 				}
 				});
 				
 		});
 		if (needforRepeat) {
-			System.out.println("End second Shuffel");
+			log.info("End second Shuffel");
 			mix();
 	}
 	}
 	
 	
 	public void logFinalEntries() {
-		System.out.println("\nBerücksichtigte Sonderregeln => ");
-		sonderregeln.forEach((k, v) -> System.out.println(k + " sucht aus für " + v));
-		System.out.println("\nBerücksichtigte Paarungen von Runde #" + (runde-1)+" => ");
-		letzteRundeHM.forEach((k,v) -> System.out.println(k + " suchte aus für " + v));
-		System.out.println("\nFinales Ergebnis #"+runde+" => ");
-		finalerMix.forEach((k, v) -> System.out.println(k + " sucht aus für " + v));
+		System.out.println();
+		log.info("Berücksichtigte Sonderregeln => ");
+		sonderregeln.forEach((k, v) -> log.info(k + " sucht aus für " + v));
+		System.out.println();
+		log.info("Berücksichtigte Paarungen von Runde #" + (runde-1)+" => ");
+		letzteRundeHM.forEach((k,v) -> log.info(k + " suchte aus für " + v));
+		System.out.println();
+		log.info("Finales Ergebnis #"+runde+" => ");
+		finalerMix.forEach((k, v) -> log.info(k + " sucht aus für " + v));
 	}
 	
 	private boolean gleichLetzteRunde(String name1, String name2) {

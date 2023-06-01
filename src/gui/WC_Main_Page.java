@@ -1,5 +1,6 @@
 package gui;
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -48,9 +53,10 @@ public class WC_Main_Page extends Application {
 			Datenbank.setDBLocation(TESTMODE);
 			Datenbank.createTablePersons();
 			Datenbank.createTableErgebnisse();
+//			Datenbank.updateRunde(1);
 			if (DELETEMODE) {
 //				Datenbank.deleteWholeTableEntriesPersons();
-//				Datenbank.deleteWholeTableEntriesLosung();
+//				Datenbank.deleteWholeTableEntriesErgebnisse();
 				log.warn("Alte Einträge gelöscht");
 			}
 		} catch (SQLException e) {
@@ -109,6 +115,9 @@ public class WC_Main_Page extends Application {
 			
 		});
 		btnBereit.setDisable(true);
+		btnBereit.setGraphic(
+				new ImageView(Paths.get("C:\\Users\\manue\\Desktop\\JavaKurs\\filmrolle.jpg")
+						.toUri().toString()));
 			
 		HBox hb1 = new HBox(10,btnNeueRunde,btnDabei,btnBereit);
 		hb1.setPadding(new Insets(2));
@@ -154,6 +163,8 @@ public class WC_Main_Page extends Application {
 	public void setScene(Stage primaryStage,Scene scene) {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("WC-Challenge");
+		primaryStage.getIcons().add(new Image(
+				Paths.get("C:\\Users\\manue\\Desktop\\JavaKurs\\icon.jpg").toUri().toString()));
 		primaryStage.show();
 	}
 	

@@ -2,6 +2,7 @@ package gui;
 
 
 
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -55,7 +57,7 @@ public class WC_ErgebnisDialog extends Dialog<ButtonType>  {
 		ButtonType zurueck = new ButtonType("Zurück", ButtonData.BACK_PREVIOUS);
 		
 		this.getDialogPane().setContent(vb);
-		this.setTitle("Ergebnisse");
+		this.setTitle("WC-Challenge Runde #" + runde);
 		this.getDialogPane().getButtonTypes().addAll(speichern, zurueck);
 
 
